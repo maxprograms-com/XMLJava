@@ -18,12 +18,12 @@ Features in development:
 
 You need Java 21 and [Gradle](https://gradle.org/)
 
+- Clone this repository
 - Point your JAVA_HOME variable to JDK 21
-- Checkout this repository
 - Run `gradle` to compile the source code
 
 ``` text
-git clone https://github.com/rmraya/XMLJava.git
+git clone https://github.com/maxprograms-com/XMLJava.git
 cd XMLJava
 gradle
 ```
