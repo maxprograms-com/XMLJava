@@ -470,11 +470,12 @@ public class Catalog implements EntityResolver2 {
             HttpURLConnection con = url.getProtocol().equals("https") ? (HttpsURLConnection) url.openConnection()
                     : (HttpURLConnection) url.openConnection();
             con.setReadTimeout(5000);
+            con.setInstanceFollowRedirects(false);
             con.connect();
-            con.getResponseCode();
-            if (con.getResponseCode() != 200) {
+            int responseCode = con.getResponseCode();
+            if (responseCode != 200) {
                 mf = new MessageFormat(Messages.getString("Catalog.2"));
-                throw new IOException(mf.format(new String[] { con.getResponseCode() + "", url.toString() }));
+                throw new IOException(mf.format(new String[] { responseCode + "", url.toString() }));
             }
             return new InputSource(con.getInputStream());
         } catch (IOException e) {
