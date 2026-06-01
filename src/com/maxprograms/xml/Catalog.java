@@ -442,7 +442,7 @@ public class Catalog implements EntityResolver2 {
                 return new InputSource(uri.toURL().openStream());
             }
             return new InputSource(new FileInputStream(uri.toURL().toString()));
-        } catch (IOException | URISyntaxException | IllegalArgumentException | NullPointerException e) {
+        } catch (URISyntaxException | IllegalArgumentException | NullPointerException e) {
             // ignore
         }
         if (dtdPublicEntities != null && publicId != null && dtdPublicEntities.containsKey(publicId)) {
@@ -462,7 +462,7 @@ public class Catalog implements EntityResolver2 {
         return null;
     }
 
-    private InputSource resolveHttp(URI uri) throws IOException {
+    private InputSource resolveHttp(URI uri) throws IOException, SAXException {
         MessageFormat mf = new MessageFormat(Messages.getString("Catalog.3"));
         logger.log(Level.WARNING, mf.format(new String[] { uri.toURL().toString() }));
         URL url = uri.toURL();
@@ -473,6 +473,10 @@ public class Catalog implements EntityResolver2 {
             con.setInstanceFollowRedirects(false);
             con.connect();
             int responseCode = con.getResponseCode();
+            if (responseCode >= 300 && responseCode < 400) {
+                mf = new MessageFormat(Messages.getString("Catalog.2"));
+                throw new SAXException(mf.format(new String[] { responseCode + "", url.toString() }));
+            }
             if (responseCode != 200) {
                 mf = new MessageFormat(Messages.getString("Catalog.2"));
                 throw new IOException(mf.format(new String[] { responseCode + "", url.toString() }));
