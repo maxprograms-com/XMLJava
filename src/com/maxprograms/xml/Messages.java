@@ -48,7 +48,7 @@ public class Messages {
                 }
             }
             return props.getProperty(key, '!' + key + '!');
-        } catch (IOException | NullPointerException e) {
+        } catch (IOException | NullPointerException _) {
             return '!' + key + '!';
         }
     }

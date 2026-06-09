@@ -100,7 +100,7 @@ public class CustomContentHandler implements IContentHandler {
 				}
 			}
 			current = stack.pop();
-		} catch (EmptyStackException es) {
+		} catch (EmptyStackException _) {
 			throw new SAXException(Messages.getString("CustomContentHandler.0"));
 		}
 	}
@@ -215,7 +215,7 @@ public class CustomContentHandler implements IContentHandler {
 		}
 		try {
 			documentBase = new File(new URI(sysId)).getParentFile();
-		} catch (Exception e) {
+		} catch (Exception _) {
 			documentBase = new File(sysId).getParentFile();
 		}
 	}

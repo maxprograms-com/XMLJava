@@ -187,7 +187,7 @@ public class RelaxNGParser {
                 nameEl.setAttribute("ns", e.getAttributeValue("ns"));
                 e.removeAttribute("ns");
             } else {
-                String resolvedNs = resolveNamespaceBinding(value, currentContext, isElementPattern, isAttributePattern);
+                String resolvedNs = resolveNamespaceBinding(value, currentContext, isElementPattern);
                 if (resolvedNs != null && !resolvedNs.isEmpty()) {
                     nameEl.setAttribute("ns", resolvedNs);
                 }
@@ -216,8 +216,7 @@ public class RelaxNGParser {
         return updated;
     }
 
-    private String resolveNamespaceBinding(String lexicalName, Map<String, String> context, boolean isElementPattern,
-            boolean isAttributePattern) {
+    private String resolveNamespaceBinding(String lexicalName, Map<String, String> context, boolean isElementPattern) {
         int separatorIndex = lexicalName.indexOf(':');
         if (separatorIndex == -1) {
             if (isElementPattern) {
