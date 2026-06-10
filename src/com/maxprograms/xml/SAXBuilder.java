@@ -79,6 +79,10 @@ public class SAXBuilder {
 			parser.setFeature("http://apache.org/xml/features/validation/dynamic", true);
 		}
 		parser.setProperty("http://www.oracle.com/xml/jaxp/properties/totalEntitySizeLimit", 0);
+		parser.setProperty("http://www.oracle.com/xml/jaxp/properties/entityExpansionLimit", 0);
+		parser.setProperty("http://www.oracle.com/xml/jaxp/properties/maxParameterEntitySizeLimit", 0);
+		parser.setProperty("http://www.oracle.com/xml/jaxp/properties/maxGeneralEntitySizeLimit", 0);
+		parser.setProperty("http://www.oracle.com/xml/jaxp/properties/maxXMLNameLimit", 0);
 		boolean clearHandler = false;
 		if (contentHandler == null) {
 			contentHandler = new CustomContentHandler();
@@ -145,6 +149,10 @@ public class SAXBuilder {
 			parser.setFeature("http://apache.org/xml/features/validation/dynamic", true);
 		}
 		parser.setProperty("http://www.oracle.com/xml/jaxp/properties/totalEntitySizeLimit", 0);
+		parser.setProperty("http://www.oracle.com/xml/jaxp/properties/entityExpansionLimit", 0);
+		parser.setProperty("http://www.oracle.com/xml/jaxp/properties/maxParameterEntitySizeLimit", 0);
+		parser.setProperty("http://www.oracle.com/xml/jaxp/properties/maxGeneralEntitySizeLimit", 0);
+		parser.setProperty("http://www.oracle.com/xml/jaxp/properties/maxXMLNameLimit", 0);
 		boolean clearHandler = false;
 		if (contentHandler == null) {
 			contentHandler = new CustomContentHandler();
