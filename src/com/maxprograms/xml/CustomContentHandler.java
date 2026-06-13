@@ -44,6 +44,7 @@ public class CustomContentHandler implements IContentHandler {
 	private String encoding;
 	private Catalog catalog;
 	private boolean isRelaxNG;
+	private static Hashtable<String, Map<String, Map<String, String>>> relaxNgCache = new Hashtable<>();
 	private Map<String, Map<String, String>> defaultAttributes;
 	private File documentBase;
 
@@ -432,8 +433,13 @@ public class CustomContentHandler implements IContentHandler {
 			}
 		}
 		if (system != null) {
-			RelaxNGParser relaxngParser = new RelaxNGParser(system, catalog);
-			defaultAttributes = relaxngParser.getElements();
+			synchronized (relaxNgCache) {
+				if (!relaxNgCache.containsKey(system)) {
+					RelaxNGParser relaxngParser = new RelaxNGParser(system, catalog);
+					relaxNgCache.put(system, relaxngParser.getElements());
+				}
+				defaultAttributes = relaxNgCache.get(system);
+			}
 			isRelaxNG = true;
 		}
 	}
