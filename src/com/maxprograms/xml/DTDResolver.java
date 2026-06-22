@@ -28,7 +28,7 @@ public class DTDResolver implements EntityResolver {
 			if (file.exists()) {
 				return new InputSource(new FileInputStream(file));
 			}
-		} catch (URISyntaxException e) {
+		} catch (URISyntaxException _) {
 			// ignore
 		}
 		return null;

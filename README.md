@@ -16,10 +16,10 @@ Features in development:
 
 ## Building
 
-You need Java 21 and [Gradle](https://gradle.org/)
+You need Java 25 and [Gradle](https://gradle.org/)
 
 - Clone this repository
-- Point your JAVA_HOME variable to JDK 21
+- Point your JAVA_HOME variable to JDK 25
 - Run `gradle` to compile the source code
 
 ``` text

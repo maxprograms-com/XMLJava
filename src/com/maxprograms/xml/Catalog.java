@@ -57,7 +57,7 @@ public class Catalog implements EntityResolver2 {
     private Map<String, Catalog> delegateCatalogs;
     private String workDir;
     private String base = "";
-    private String documentParent = "";
+    private final ThreadLocal<String> documentParent = ThreadLocal.withInitial(() -> "");
     private String prefer = "public";
 
     protected Catalog(String catalogFile)
@@ -442,7 +442,7 @@ public class Catalog implements EntityResolver2 {
                 return new InputSource(uri.toURL().openStream());
             }
             return new InputSource(new FileInputStream(uri.toURL().toString()));
-        } catch (URISyntaxException | IllegalArgumentException | NullPointerException e) {
+        } catch (URISyntaxException | IllegalArgumentException | NullPointerException _) {
             // ignore
         }
         if (dtdPublicEntities != null && publicId != null && dtdPublicEntities.containsKey(publicId)) {
@@ -554,7 +554,7 @@ public class Catalog implements EntityResolver2 {
             }
             // this resource is not in catalog.
 
-            if (!documentParent.isEmpty()) {
+            if (!documentParent.get().isEmpty()) {
                 // try to find the file in parent folder
                 File f = new File(systemId);
                 String name = f.getAbsolutePath();
@@ -566,19 +566,19 @@ public class Catalog implements EntityResolver2 {
                         name = f.getName();
                     }
                 }
-                File parent = new File(documentParent);
+                File parent = new File(documentParent.get());
                 File file = new File(parent, name);
                 if (file.exists()) {
                     return file.getAbsolutePath();
                 }
             }
             try {
-                URI u = new URI(baseURI != null ? baseURI : documentParent).resolve(systemId).normalize();
+                URI u = new URI(baseURI != null ? baseURI : documentParent.get()).resolve(systemId).normalize();
                 File file = new File(u.toURL().toString());
                 if (file.exists()) {
                     return file.getAbsolutePath();
                 }
-            } catch (MalformedURLException | URISyntaxException | IllegalArgumentException e) {
+            } catch (MalformedURLException | URISyntaxException | IllegalArgumentException _) {
                 // ignore
             }
         }
@@ -628,7 +628,7 @@ public class Catalog implements EntityResolver2 {
                 if (u.isAbsolute() && u.toURL().getProtocol().startsWith("file")) {
                     return u.toString();
                 }
-            } catch (URISyntaxException | MalformedURLException | IllegalArgumentException e) {
+            } catch (URISyntaxException | MalformedURLException | IllegalArgumentException _) {
                 // ignore
             }
         }
@@ -636,7 +636,7 @@ public class Catalog implements EntityResolver2 {
     }
 
     public void currentDocumentBase(String parentFile) {
-        documentParent = parentFile;
+        documentParent.set(parentFile);
     }
 
     public String getDTD(String name) {
@@ -681,7 +681,7 @@ public class Catalog implements EntityResolver2 {
                     EntityDecl entity = it.next();
                     addDtdSystemEntity(entity.getValue(), entity.getSystemId());
                 }
-            } catch (IOException | SAXException e) {
+            } catch (IOException | SAXException _) {
                 // do nothing
                 MessageFormat mf = new MessageFormat(Messages.getString("Catalog.0"));
                 logger.log(Level.WARNING, mf.format(new String[] { publicId }));
