@@ -32,7 +32,6 @@ public class Document implements XMLNode {
 	private Map<String, String> entities;
 	private List<AttlistDecl> attlistDeclarations;
 
-
 	private static Logger logger = System.getLogger(Document.class.getName());
 
 	@Override
@@ -173,21 +172,12 @@ public class Document implements XMLNode {
 	}
 
 	public void removePI(String target) {
-		for (int i = 0; i < content.size(); i++) {
-			XMLNode node = content.get(i);
-			if (node.getNodeType() == XMLNode.PROCESSING_INSTRUCTION_NODE && ((PI) node).getTarget().equals(target)) {
-				content.remove(node);
-			}
-		}
+		content.removeIf(node -> node.getNodeType() == XMLNode.PROCESSING_INSTRUCTION_NODE
+				&& ((PI) node).getTarget().equals(target));
 	}
 
 	public void removeAllPI() {
-		for (int i = 0; i < content.size(); i++) {
-			XMLNode node = content.get(i);
-			if (node.getNodeType() == XMLNode.PROCESSING_INSTRUCTION_NODE) {
-				content.remove(node);
-			}
-		}
+		content.removeIf(node -> node.getNodeType() == XMLNode.PROCESSING_INSTRUCTION_NODE);
 	}
 
 	public void addPI(PI pi) {
@@ -292,11 +282,11 @@ public class Document implements XMLNode {
 		return toString().hashCode();
 	}
 
-    public void setAttlistDeclarations(List<AttlistDecl> attlistDeclarations) {
-        this.attlistDeclarations = attlistDeclarations;
-    }
+	public void setAttlistDeclarations(List<AttlistDecl> attlistDeclarations) {
+		this.attlistDeclarations = attlistDeclarations;
+	}
 
-    public List<AttlistDecl> getAttlistDeclarations() {
-        return attlistDeclarations;
-    }
+	public List<AttlistDecl> getAttlistDeclarations() {
+		return attlistDeclarations;
+	}
 }
