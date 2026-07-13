@@ -20,6 +20,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.ParserConfigurationException;
@@ -163,44 +165,12 @@ public class CustomContentHandler implements IContentHandler {
 	}
 
 	protected static List<Attribute> getPseudoAttributes(String string) {
-		String data = string.trim();
+		Pattern pattern = Pattern.compile("([^\\s='\"?/]+)\\s*=\\s*(?:\"([^\"]*)\"|'([^']*)')");
 		List<Attribute> result = new Vector<>();
-		StringBuilder name = new StringBuilder();
-		StringBuilder value = new StringBuilder();
-		boolean inName = true;
-		boolean inValue = false;
-		char delimiter = '\"';
-		for (int i = 0; i < data.length(); i++) {
-			char c = data.charAt(i);
-			if (inName) {
-				if (c == '=' || Character.isWhitespace(c)) {
-					inName = false;
-				} else {
-					name.append(c);
-				}
-			}
-			if (inValue) {
-				if (c == delimiter) {
-					inValue = false;
-					result.add(new Attribute(name.toString(), value.toString()));
-					name = new StringBuilder();
-					value = new StringBuilder();
-					continue;
-				}
-				value.append(c);
-			}
-			if (!inName && !inValue) {
-				if (Character.isWhitespace(c) || c == '=') {
-					continue;
-				}
-				if (c == '\"' || c == '\'') {
-					delimiter = c;
-					inValue = true;
-					continue;
-				}
-				name.append(c);
-				inName = true;
-			}
+		Matcher matcher = pattern.matcher(string);
+		while (matcher.find()) {
+			String value = matcher.group(2) != null ? matcher.group(2) : matcher.group(3);
+			result.add(new Attribute(matcher.group(1), value));
 		}
 		return result;
 	}
