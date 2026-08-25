@@ -12,8 +12,8 @@ package com.maxprograms.xml;
 
 public class Constants {
 
-    public static final String VERSION = "5.0.2";
-    public static final String BUILD = "20260725_1519";
+    public static final String VERSION = "5.0.3";
+    public static final String BUILD = "20260825_1359";
 
     private Constants() {
         // private for security

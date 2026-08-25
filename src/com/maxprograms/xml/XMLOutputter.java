@@ -225,6 +225,7 @@ public class XMLOutputter {
 		String result = string.replace("&", "&amp;");
 		result = result.replace("<", "&lt;");
 		result = result.replace(">", "&gt;");
+		result = result.replaceAll("\r(?!\n)", "&#xD;");
 
 		// now replace common text with
 		// the entities declared in the DTD
