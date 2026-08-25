@@ -40,7 +40,11 @@ public class Attribute implements XMLNode, Comparable<Attribute> {
 
 	@Override
 	public String toString() {
-		return name + "=\"" + XMLUtils.cleanText(value).replace("\"", "&quot;") + "\"";
+		String cleaned = XMLUtils.cleanText(value).replace("\"", "&quot;");
+		cleaned = cleaned.replace("\t", "&#x9;");
+		cleaned = cleaned.replace("\r", "&#xD;");
+		cleaned = cleaned.replace("\n", "&#xA;");
+		return name + "=\"" + cleaned + "\"";
 	}
 
 	@Override
