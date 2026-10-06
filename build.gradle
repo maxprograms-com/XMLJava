@@ -21,7 +21,6 @@ sourceSets {
 }
 
 // Disable all caching for fresh builds
-gradle.startParameter.buildCacheEnabled = false
 tasks.configureEach {
     outputs.upToDateWhen { false }
 }

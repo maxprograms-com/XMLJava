@@ -78,11 +78,12 @@ public class SAXBuilder {
 			parser.setFeature("http://apache.org/xml/features/validation/schema", true);
 			parser.setFeature("http://apache.org/xml/features/validation/dynamic", true);
 		}
-		parser.setProperty("http://www.oracle.com/xml/jaxp/properties/totalEntitySizeLimit", 0);
-		parser.setProperty("http://www.oracle.com/xml/jaxp/properties/entityExpansionLimit", 0);
-		parser.setProperty("http://www.oracle.com/xml/jaxp/properties/maxParameterEntitySizeLimit", 0);
-		parser.setProperty("http://www.oracle.com/xml/jaxp/properties/maxGeneralEntitySizeLimit", 0);
-		parser.setProperty("http://www.oracle.com/xml/jaxp/properties/maxXMLNameLimit", 0);
+		parser.setProperty("jdk.xml.totalEntitySizeLimit", "0");
+		parser.setProperty("jdk.xml.entityExpansionLimit", "0");
+		parser.setProperty("jdk.xml.maxParameterEntitySizeLimit", "0");
+		parser.setProperty("jdk.xml.maxGeneralEntitySizeLimit", "0");
+		parser.setProperty("jdk.xml.maxXMLNameLimit", "0");
+
 		boolean clearHandler = false;
 		if (contentHandler == null) {
 			contentHandler = new CustomContentHandler();
